@@ -52,8 +52,9 @@ def send_smth(message):
 def sendResponse(message):
     coffeeHouse = random.choice(coffeeHouses)
     rs = "Наш сегодняшний путь лежит в ...\n" + coffeeHouse
+    photo = open('pic/default.png', 'rb')
 
-    bot.send_message(message.chat.id, rs)
+    bot.send_photo(message.chat.id, photo, rs)
 
 
 while True:
