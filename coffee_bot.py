@@ -1,4 +1,5 @@
 import os
+import random
 
 import telebot
 
@@ -18,7 +19,10 @@ def send_help(message):
 
 @bot.message_handler(content_types=['text'])  # text message handler
 def send_smth(message):
-    bot.send_message(message.chat.id, "Hello, did someone call for help?")
+    coffeeHouse = random.choice(coffeeHouseList)
+    rs = "Наш сегодняшний путь лежит в ...\n" + coffeeHouse
+
+    bot.send_message(message.chat.id, rs)
 
 
 bot.polling(none_stop=True)
