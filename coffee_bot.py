@@ -1,3 +1,4 @@
+import logging
 import os
 import random
 import time
@@ -9,17 +10,24 @@ token = os.environ.get('TG_BOT_TOKEN')
 
 coffeeHouseList = ["Банзай", "Живой кофе", "Starbucks", "Правда кофе", "Prime", "Продукты", "David Doner Club"]
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("coffee_bot")
+
 bot = telebot.TeleBot(token)
 
 
 @bot.message_handler(commands=['help'])  # help command handler
 def send_help(message):
+    logger.info('command [help] was received')
+
     helpStr = 'Выбираем из [' + ', '.join(coffeeHouseList) + ']'
     bot.reply_to(message, helpStr)
 
 
 @bot.message_handler(content_types=['text'])  # text message handler
 def send_smth(message):
+    logger.info('receive message: [%s]', message)
+
     coffeeHouse = random.choice(coffeeHouseList)
     rs = "Наш сегодняшний путь лежит в ...\n" + coffeeHouse
 
