@@ -10,7 +10,13 @@ coffeeHouseList = ["Банзай", "Живой кофе", "Starbucks", "Прав
 bot = telebot.TeleBot(token)
 
 
-@bot.message_handler(content_types=['text'])
+@bot.message_handler(commands=['help'])  # help command handler
+def send_help(message):
+    helpStr = 'Выбираем из [' + ', '.join(coffeeHouseList) + ']'
+    bot.reply_to(message, helpStr)
+
+
+@bot.message_handler(content_types=['text'])  # text message handler
 def send_smth(message):
     bot.send_message(message.chat.id, "Hello, did someone call for help?")
 
