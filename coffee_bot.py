@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import random
@@ -5,28 +6,34 @@ import time
 
 import telebot
 
+LIST_FILENAME = 'coffee_house_list.json'
+
 # using get will return `None` if a key is not present rather than raise a `KeyError`
 token = os.environ.get('TG_BOT_TOKEN')
 
-coffeeHouseList = ["Банзай",
-                   "Живой кофе",
-                   "Starbucks",
-                   "Правда кофе",
-                   "Prime",
-                   "Кофейня в 'Продуктах'",
-                   "David Doner Club"]
+
+def loadCoffeeHouseList():
+    list = []
+    with open(LIST_FILENAME) as json_file:
+        data = json.load(json_file)
+        for p in data['coffeehouse']:
+            list.append(p['name'])
+    return list
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("coffee_bot")
 
 bot = telebot.TeleBot(token)
 
+coffeeHouses = loadCoffeeHouseList()
+
 
 @bot.message_handler(commands=['help'])  # help command handler
 def send_help(message):
     logger.info('command [help] was received')
 
-    helpStr = 'Выбираем из [' + ', '.join(coffeeHouseList) + ']'
+    helpStr = 'Выбираем из [' + ', '.join(coffeeHouses) + ']'
     bot.reply_to(message, helpStr)
 
 
@@ -43,7 +50,7 @@ def send_smth(message):
 
 
 def sendResponse(message):
-    coffeeHouse = random.choice(coffeeHouseList)
+    coffeeHouse = random.choice(coffeeHouses)
     rs = "Наш сегодняшний путь лежит в ...\n" + coffeeHouse
 
     bot.send_message(message.chat.id, rs)
