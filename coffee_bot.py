@@ -33,7 +33,16 @@ def send_help(message):
 @bot.message_handler(content_types=['text'])  # text message handler
 def send_smth(message):
     logger.info('receive message: [%s]', message)
+    sendResponse(message)
 
+
+@bot.message_handler(content_types=['audio', 'video', 'document', 'location', 'contact', 'sticker'])
+def send_smth(message):
+    logger.info('receive not text message')
+    sendResponse(message)
+
+
+def sendResponse(message):
     coffeeHouse = random.choice(coffeeHouseList)
     rs = "Наш сегодняшний путь лежит в ...\n" + coffeeHouse
 
