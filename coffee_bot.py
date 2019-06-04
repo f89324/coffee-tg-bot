@@ -1,5 +1,6 @@
 import os
 import random
+import time
 
 import telebot
 
@@ -25,4 +26,10 @@ def send_smth(message):
     bot.send_message(message.chat.id, rs)
 
 
-bot.polling(none_stop=True)
+while True:
+    try:
+        bot.polling(none_stop=True)
+        # ConnectionError and ReadTimeout because of possible timout of the requests library
+        # maybe there are others, therefore Exception
+    except Exception:
+        time.sleep(15)
