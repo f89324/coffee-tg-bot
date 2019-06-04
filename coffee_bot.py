@@ -8,7 +8,13 @@ import telebot
 # using get will return `None` if a key is not present rather than raise a `KeyError`
 token = os.environ.get('TG_BOT_TOKEN')
 
-coffeeHouseList = ["Банзай", "Живой кофе", "Starbucks", "Правда кофе", "Prime", "Продукты", "David Doner Club"]
+coffeeHouseList = ["Банзай",
+                   "Живой кофе",
+                   "Starbucks",
+                   "Правда кофе",
+                   "Prime",
+                   "Кофейня в 'Продуктах'",
+                   "David Doner Club"]
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("coffee_bot")
