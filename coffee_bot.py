@@ -11,6 +11,8 @@ LIST_FILENAME = 'coffee_house_list.json'
 # using get will return `None` if a key is not present rather than raise a `KeyError`
 token = os.environ.get('TG_BOT_TOKEN')
 
+bot = telebot.TeleBot(token)
+
 
 def loadCoffeeHouseList():
     list = []
@@ -19,14 +21,6 @@ def loadCoffeeHouseList():
         for p in data['coffeehouse']:
             list.append(p['name'])
     return list
-
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("coffee_bot")
-
-bot = telebot.TeleBot(token)
-
-coffeeHouses = loadCoffeeHouseList()
 
 
 @bot.message_handler(commands=['help'])  # help command handler
@@ -57,10 +51,16 @@ def sendResponse(message):
     bot.send_photo(message.chat.id, photo, rs)
 
 
-while True:
-    try:
-        bot.polling(none_stop=True)
-        # ConnectionError and ReadTimeout because of possible timout of the requests library
-        # maybe there are others, therefore Exception
-    except Exception:
-        time.sleep(15)
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger("coffee_bot")
+
+    coffeeHouses = loadCoffeeHouseList()
+
+    while True:
+        try:
+            bot.polling(none_stop=True)
+            # ConnectionError and ReadTimeout because of possible timout of the requests library
+            # maybe there are others, therefore Exception
+        except Exception:
+            time.sleep(15)
